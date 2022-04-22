@@ -36,20 +36,29 @@
   </modules>
 
   <scm>
-    <connection>scm:git:git://github.com/danfickle/openhtmltopdf.git</connection>
-    <developerConnection>scm:git:https://github.com/danfickle/openhtmltopdf.git</developerConnection>
-    <url>git://github.com/danfickle/openhtmltopdf.git</url>
-    <tag>openhtmltopdf-parent-1.0.10</tag>
+    <developerConnection>scm:git:git@github.com:mirakl/openhtmltopdf.git</developerConnection>
+    <connection>scm:git:git@github.com:mirakl/openhtmltopdf.git</connection>
+    <tag>HEAD</tag>
   </scm>
+
+  <repositories>
+    <repository>
+      <id>mirakl-repo-cloud</id>
+      <name>mirakl-repo</name>
+      <url>https://mirakl.jfrog.io/artifactory/mirakl-repo</url>
+    </repository>
+  </repositories>
 
   <distributionManagement>
     <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <id>mirakl-repo-snapshots-cloud</id>
+      <name>Mirakl Artifactory Snapshots</name>
+      <url>https://mirakl.jfrog.io/artifactory/libs-snapshot-local</url>
     </snapshotRepository>
     <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+      <id>mirakl-repo-cloud</id>
+      <name>Mirakl Artifactory Release</name>
+      <url>https://mirakl.jfrog.io/artifactory/libs-release-local</url>
     </repository>
   </distributionManagement>
 
