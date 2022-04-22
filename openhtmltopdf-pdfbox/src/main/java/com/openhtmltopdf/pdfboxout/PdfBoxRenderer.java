@@ -279,20 +279,6 @@ public class PdfBoxRenderer implements Closeable, PageSupplier {
         this._initialPageNumber = state._initialPageNumber;
     }
 
-    /**
-     * Creates a new renderer builder inheriting this configuration.
-     */
-    public PdfRendererBuilder createBuilder() {
-        PdfRendererBuilderState newState = state.clone();
-        /*
-         * NOTE: Old input references are cleared to ensure a clean new run.
-         */
-        newState._document = null;
-        newState._file = null;
-        newState._html = null;
-        return new PdfRendererBuilder(newState);
-    }
-
     public Document getDocument() {
         return _doc;
     }

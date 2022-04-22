@@ -110,7 +110,7 @@ public class PdfRendererBuilder extends BaseRendererBuilder<PdfRendererBuilder, 
             if (font.usedFor.contains(FSFontUseCase.DOCUMENT) ||
                 font.usedFor.contains(FSFontUseCase.FALLBACK_PRE) ||
                 font.usedFor.contains(FSFontUseCase.FALLBACK_FINAL)) {
-                IdentValue fontStyle = font.style != null ? font.style.toIdentValue() : null;
+                IdentValue fontStyle = font.style != null ? font.style.getIdentValue() : null;
 
                 FontGroup group;
                 if (font.usedFor.contains(FSFontUseCase.FALLBACK_PRE)) {
@@ -164,7 +164,7 @@ public class PdfRendererBuilder extends BaseRendererBuilder<PdfRendererBuilder, 
                     && (fontStyle == null || fontStyle.equals(font.style))) {
                 it.remove();
                 state._fontCache.remove(font.family, font.weight,
-                        font.style != null ? font.style.toIdentValue() : null);
+                        font.style != null ? font.style.getIdentValue() : null);
                 dropped = true;
             }
         }

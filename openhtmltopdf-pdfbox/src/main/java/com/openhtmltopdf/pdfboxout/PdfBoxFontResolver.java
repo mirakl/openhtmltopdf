@@ -720,7 +720,7 @@ public class PdfBoxFontResolver implements FontResolver {
                             }
                         }
                     } catch (IOException e) {
-                        /* TODO: log failed close()? */
+                        XRLog.log(Level.SEVERE, LogMessageId.LogMessageId1Param.EXCEPTION_UNHANDLED, _family);
                     }
                 }
 

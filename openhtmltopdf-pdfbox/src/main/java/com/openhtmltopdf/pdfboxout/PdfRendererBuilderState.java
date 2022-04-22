@@ -16,7 +16,7 @@ import com.openhtmltopdf.pdfboxout.PdfRendererBuilder.PdfAConformance;
 /**
  * This class is internal. DO NOT USE! Just ignore it!
  */
-public class PdfRendererBuilderState extends BaseRendererBuilder.BaseRendererBuilderState implements Cloneable {
+public class PdfRendererBuilderState extends BaseRendererBuilder.BaseRendererBuilderState {
 	/* Internal! */
 	PdfRendererBuilderState() {
 	}
@@ -31,13 +31,4 @@ public class PdfRendererBuilderState extends BaseRendererBuilder.BaseRendererBui
 	public byte[] _colorProfile;
 	public PageSupplier _pageSupplier;
 	public FontCache _fontCache;
-
-	@Override
-	protected PdfRendererBuilderState clone() {
-	    try {
-            return (PdfRendererBuilderState) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
-	}
 }
