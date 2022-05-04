@@ -141,11 +141,15 @@ public class PdfBoxRenderer implements Closeable, PageSupplier {
 
     private final int _initialPageNumber;
 
+
+    private PdfRendererBuilderState state;
+
     /**
      * This method is constantly changing as options are added to the builder.
      */
     PdfBoxRenderer(BaseDocument doc, UnicodeImplementation unicode,
             PageDimensions pageSize, PdfRendererBuilderState state, Closeable diagnosticConsumer) {
+        this.state = state;
 
         this.diagnosticConsumer = diagnosticConsumer;
 
@@ -201,7 +205,7 @@ public class PdfBoxRenderer implements Closeable, PageSupplier {
         userAgent.setSharedContext(_sharedContext);
         _outputDevice.setSharedContext(_sharedContext);
 
-        PdfBoxFontResolver fontResolver = new PdfBoxFontResolver(_sharedContext, _pdfDoc, state._caches.get(CacheStore.PDF_FONT_METRICS), state._pdfAConformance, state._pdfUaConform);
+        PdfBoxFontResolver fontResolver = new PdfBoxFontResolver(_sharedContext, _pdfDoc, state._fontCache, state._caches.get(CacheStore.PDF_FONT_METRICS), state._pdfAConformance, state._pdfUaConform);
         _sharedContext.setFontResolver(fontResolver);
 
         PdfBoxReplacedElementFactory replacedElementFactory = new PdfBoxReplacedElementFactory(_outputDevice, state._svgImpl, state._objectDrawerFactory, state._mathmlImpl);

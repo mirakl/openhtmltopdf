@@ -2,10 +2,10 @@ package com.openhtmltopdf.outputdevice.helper;
 
 import com.openhtmltopdf.bidi.BidiReorderer;
 import com.openhtmltopdf.bidi.BidiSplitterFactory;
+import com.openhtmltopdf.css.constants.IdentValue;
 import com.openhtmltopdf.extend.*;
 import com.openhtmltopdf.layout.Layer;
 import com.openhtmltopdf.swing.NaiveUserAgent;
-
 import com.openhtmltopdf.util.Diagnostic;
 import com.openhtmltopdf.util.ThreadCtx;
 import org.w3c.dom.Document;
@@ -13,12 +13,7 @@ import org.w3c.dom.Document;
 import java.io.Closeable;
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
@@ -36,7 +31,7 @@ public abstract class BaseRendererBuilder<TFinalClass extends BaseRendererBuilde
 	 * This is internal, please don't use directly.
 	 */
 	public abstract static class BaseRendererBuilderState {
-        public final List<AddedFont> _fonts = new ArrayList<>(); 
+        public final List<AddedFont> _fonts = new ArrayList<>();
         public final List<FSDOMMutator> _domMutators = new ArrayList<>();
 
         public BiPredicate<String, ExternalResourceType> _beforeAccessController = new NaiveUserAgent.DefaultAccessController();
@@ -156,7 +151,7 @@ public abstract class BaseRendererBuilder<TFinalClass extends BaseRendererBuilde
 	/**
 	 * Provides an HttpStreamFactory implementation if the user desires to use an
 	 * external HTTP/HTTPS implementation. Uses URL::openStream by default.
-	 * 
+	 *
 	 * @see #useProtocolsStreamImplementation(FSStreamFactory, String[])
 	 *
 	 * @param factory the factory to use for HTTP/HTTPS
@@ -166,16 +161,16 @@ public abstract class BaseRendererBuilder<TFinalClass extends BaseRendererBuilde
 		this.useProtocolsStreamImplementation(factory, "http", "https");
 		return (TFinalClass) this;
 	}
-	
+
 	/**
 	 * Provides an {@link com.openhtmltopdf.extend.FSStreamFactory}
 	 * implementation if the user desires to use an external
 	 * stream provider for a particular set of protocols.
 	 * Protocols should always be in lower case.
-	 * 
+	 *
 	 * NOTE: HttpStreamFactory, despite its historical name, can be used for any protocol
 	 * including private made-up protocols.
-	 * 
+	 *
 	 * @see #useHttpStreamImplementation(FSStreamFactory)
 	 * @see #useProtocolsStreamImplementation(FSStreamFactory, String[])
 	 * @param factory the stream factory to use
@@ -194,10 +189,10 @@ public abstract class BaseRendererBuilder<TFinalClass extends BaseRendererBuilde
 	 * implementation if the user desires to use an external
 	 * stream provider for a particular list of protocols.
 	 * Protocols should always be in lower case.
-	 * 
+	 *
 	 * NOTE: HttpStreamFactory, despite its historical name, can be used for any protocol
 	 * including private made-up protocols.
-	 * 
+	 *
 	 * @see #useHttpStreamImplementation(FSStreamFactory)
 	 * @see #useProtocolsStreamImplementation(FSStreamFactory, Set)
 	 * @param factory the stream factory to use
@@ -302,11 +297,11 @@ public abstract class BaseRendererBuilder<TFinalClass extends BaseRendererBuilde
 
 	/**
 	 * Uses the specified SVG drawer implementation.
-	 * 
+	 *
 	 * NOTE: This implementation is used for both inline SVG markup and SVG markup in external
-	 * files included via the <code>img</code> tag. Please be very careful if using an insecure 
+	 * files included via the <code>img</code> tag. Please be very careful if using an insecure
 	 * <code>SVGDrawer</code> that all SVG images are trusted.
-	 *  
+	 *
 	 * @param svgImpl
 	 *            the SVG implementation
 	 * @return this for method chaining
@@ -440,24 +435,24 @@ public abstract class BaseRendererBuilder<TFinalClass extends BaseRendererBuilde
 		state._objectDrawerFactory = objectDrawerFactory;
 		return (TFinalClass) this;
 	}
-	
+
 	/**
 	 * Use the new (May 2018) fast renderer.
 	 * This renderer can be 100s of times faster for very large documents.
 	 * Please note that the fast renderer will be the only renderer at some future
 	 * release so please at least test your code using the fast mode.
-	 * 
+	 *
 	 * Note: As of version 1.0.5 the fast renderer will be the default
 	 * and this method is not required. To temporarily
 	 * use the slow renderer (now only available for PDFs) call <code>useSlowMode</code>.
-	 * 
+	 *
 	 * @return this for method chaining
 	 */
 	public final TFinalClass useFastMode() {
 	    state._useFastRenderer = true;
 	    return (TFinalClass) this;
 	}
-	
+
     /**
      * <p>Allows the user to provide a font file for use by the main
      * document only (not SVGs). See:
@@ -483,14 +478,14 @@ public abstract class BaseRendererBuilder<TFinalClass extends BaseRendererBuilde
      *
      * <p>For gotchas related to font handling please see:
      * <a href="https://github.com/danfickle/openhtmltopdf/wiki/Fonts">Wiki: Fonts</a></p>
-     * 
+     *
      * @param fontFile A file system font file in true-type format. Beware of using resources as
      * they will not be separate files in the final jar.
      * @param fontFamily Font family name. If using a font in Java2D, SVG or MathML this should match
      * <code>Font.createFont(Font.TRUETYPE_FONT, fontFile).getFamily()</code>.
      * @param fontWeight Font boldness, usually 400 for regular fonts and 700 for bold fonts.
      * @param fontStyle Normal, italic or oblique.
-     * @param subset For PDF use whether the font is subset, usually true unless the font is 
+     * @param subset For PDF use whether the font is subset, usually true unless the font is
      * being used by form controls.
      * @param fontUsedFor Which components use the font such as main document, SVG, etc. Example:
      * <code>EnumSet.of(FSFontUseCase.DOCUMENT, FSFontUseCase.SVG)</code>
@@ -529,12 +524,12 @@ public abstract class BaseRendererBuilder<TFinalClass extends BaseRendererBuilde
      *
      * <p>Fonts can also be added using a font-face at-rule in the CSS (not
      * recommended for Java2D usage).</p>
-     * 
+     *
      * <p><strong>IMPORTANT:</strong> This method will add fonts for use by the main document
      * only. It is not recommended for use with Java2D.
      * To add fonts for use by Java2D, SVG, etc see:
      * {@link #useFont(File, String, Integer, FontStyle, boolean, Set)}</p>
-     * 
+     *
      * <p>For gotchas related to font handling please see:
      * <a href="https://github.com/danfickle/openhtmltopdf/wiki/Fonts">Wiki: Fonts</a></p>
      *
@@ -558,11 +553,11 @@ public abstract class BaseRendererBuilder<TFinalClass extends BaseRendererBuilde
      *
      * <p>Fonts can also be added using a font-face at-rule in the CSS (not
      * recommended for Java2D usage).</p>
-     * 
+     *
      * <p><strong>IMPORTANT:</strong> This method is not recommended for use with Java2D.
      * To add fonts for use by Java2D, SVG, etc see:
      * {@link #useFont(File, String, Integer, FontStyle, boolean, Set)}</p>
-     * 
+     *
      * <p>For gotchas related to font handling please see:
      * <a href="https://github.com/danfickle/openhtmltopdf/wiki/Fonts">Wiki: Fonts</a></p>
      *
@@ -627,7 +622,7 @@ public abstract class BaseRendererBuilder<TFinalClass extends BaseRendererBuilde
     }
 
     /**
-     * Allows the setting of the initial page number to use with the 
+     * Allows the setting of the initial page number to use with the
      * <code>page</code> and <code>pages</code> CSS counters.
      * Useful when appending to an existing document.
      * Must be one or greater.
@@ -647,9 +642,19 @@ public abstract class BaseRendererBuilder<TFinalClass extends BaseRendererBuilde
 		MM, INCHES
 	}
 
-	public enum FontStyle {
-		NORMAL, ITALIC, OBLIQUE
-	}
+    public enum FontStyle {
+        NORMAL(IdentValue.NORMAL), ITALIC(IdentValue.ITALIC), OBLIQUE(IdentValue.OBLIQUE);
+
+        private final IdentValue identValue;
+
+		FontStyle(IdentValue identValue) {
+			this.identValue = identValue;
+		}
+
+		public IdentValue getIdentValue() {
+            return identValue;
+        }
+    }
 
     /**
      * Use cases for fonts.
